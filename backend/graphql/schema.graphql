@@ -1,0 +1,70 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+# メンバーのプロフィールを表す型
+type MemberProfile {
+  userId: ID!
+  fullName: String!
+  department: String
+  position: String
+  hobbies: [String]
+  skills: [String]
+  bio: String
+  profileImageUrl: String
+}
+
+# データの取得操作 (Queries)
+type Query {
+  # すべてのメンバープロフィールを取得する
+  listMemberProfiles: [MemberProfile]
+
+  # 特定のメンバープロフィールをIDで取得する
+  getMemberProfile(userId: ID!): MemberProfile
+
+  # キーワードでメンバープロフィールを検索する
+  searchUserProfiles(
+    keyword: String!
+    limit: Int
+    offset: Int
+  ): [SearchResult]
+}
+
+# 検索結果の型
+type SearchResult {
+  userId: ID!
+  fullName: String!
+  department: String
+  position: String
+  hobbies: [String]
+  skills: [String]
+  bio: String
+  score: Float
+}
+
+# データの変更操作 (Mutations)
+type Mutation {
+  # 自分のプロフィールを登録または更新する
+  updateMyProfile(
+    fullName: String!
+    department: String
+    position: String
+    hobbies: [String]
+    skills: [String]
+    bio: String
+    profileImageUrl: String
+  ): MemberProfile
+
+  # 新規プロフィール作成用
+  createUserProfile(
+    userId: ID!
+    fullName: String!
+    department: String
+    position: String
+    hobbies: [String]
+    skills: [String]
+    bio: String
+    profileImageUrl: String
+  ): MemberProfile
+}
